@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ColorX</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <script src="main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ColorX</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="l-main">
+      <div class="l-container">
+        <section class="p-game-screen">
+          <!-- カラーコード表示 -->
+          <div class="p-score-display">
+            <p class="p-score-display__title">What's This Color?</p>
+            <h2 class="p-score-display__value">#FFFFFF</h2>
+          </div>
+
+          <!-- カラーピッカー -->
+          <div class="p-picker">
+            <div class="p-picker__hue"></div>
+            <div class="p-picker__sv"></div>
+          </div>
+
+          <!-- ボタン -->
+          <div>
+            <button id="submit-btn" class="c-btn">Submit</button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="main.js"></script>
+  </body>
 </html>

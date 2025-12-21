@@ -12,6 +12,7 @@
   --picker-size: 500px;
   --hue-circle-ratio: 0.2;
 
+  --hue-offset: 90deg;
 }
 
 * {
@@ -89,6 +90,7 @@ body {
   height: 100%;
   border-radius: 50%;
   background: conic-gradient(
+    from var(--hue-offset),
     red,
     yellow,
     lime,
@@ -112,7 +114,8 @@ body {
   left: 50%;
 
   /* 角度はJSから変更できるようCSS変数を指定 */
-  transform: translate(-50%, -50%) rotate(var(--hue-angle, 0deg));
+  /* 初期値は赤になるように設定 */
+  transform: translate(-50%, -50%) rotate(var(--hue-angle, calc(var(--hue-offset) - 90deg)));
 
   width: var(--picker-size);
   height: 20px;
@@ -138,7 +141,7 @@ body {
   width: var(--side-length);
   height: var(--side-length);
 
-  background-color: red;
+  background-color: hsl(0 100% 50%);
   background-image:
     linear-gradient(to bottom, transparent, black),
     linear-gradient(to right, white, transparent);

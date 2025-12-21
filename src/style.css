@@ -137,6 +137,7 @@ body {
 }
 
 .p-picker__sv {
+  position: relative;
   /* SVパネルは色相環の内径を対角線に持つ */
   --side-length: calc(var(--picker-size) * (1 - var(--hue-circle-ratio)) / sqrt(2));
   width: var(--side-length);
@@ -146,6 +147,20 @@ body {
   background-image:
     linear-gradient(to bottom, transparent, black),
     linear-gradient(to right, white, transparent);
+}
+
+.p-picker__sv-selector {
+  --size: 15px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  border: 2px solid var(--bg-color);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.5);
 }
 
 /* ================================================================================

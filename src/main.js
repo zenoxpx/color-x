@@ -4,7 +4,11 @@ const HUE_OFFSET = parseFloat(rootStyles.getPropertyValue("--hue-offset")) || 0;
 const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
+const svSelector = document.getElementById("js-sv-selector");
 
+/* ================================================================================
+   色相環のセレクター制御
+   ================================================================================*/
 let isHueDragging = false;
 
 colorWheel.addEventListener("mousedown", (e) => {
@@ -24,6 +28,28 @@ window.addEventListener("mousemove", (e) => {
 
 window.addEventListener("mouseup", () => {
   isHueDragging = false;
+})
+
+/* ================================================================================
+   SVパネルのセレクター制御
+   ================================================================================*/
+let isSvDragging = false;
+
+svPanel.addEventListener("mousedown", (e) => {
+  isSvDragging = true;
+  debugger;
+  e.preventDefault();
+  updateSV(e);
+});
+
+window.addEventListener("mousemove", (e) => {
+  if(isSvDragging) {
+    updateSV(e);
+  }
+});
+
+window.addEventListener("mouseup", () => {
+  isSvDragging = false;
 })
 
 function updateHue(e) {
@@ -60,6 +86,22 @@ function isClickOnColorWheel(e) {
     return true;
   }
   return false;
+}
+
+function updateSV(e) {
+  const rect = svPanel.getBoundingClientRect();
+  let x = e.clientX - rect.left;
+  let y = e.clientY - rect.top;
+
+  // パネル内に収める
+  const clampPos = (min, pos, max) => Math.max(min, Math.min(pos, max));
+  x = clampPos(0, x, rect.width);
+  y = clampPos(0, y, rect.height);
+
+  // TODO: selectorSizeをCSSから取り出す処理を実装する
+  const selectorSize = 15;
+  svSelector.style.left = `${x - selectorSize / 2}px`;
+  svSelector.style.top = `${y - selectorSize / 2}px`;
 }
 
 // click位置をrectの中心からの座標に変換する

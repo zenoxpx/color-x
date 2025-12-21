@@ -8,9 +8,12 @@
   /* TODO: フォールバック設定 */
   --main-font: "Inter", sans-serif;
 
-  /* 色相環のサイズと幅 */
-  --hue-circle-size: 500px;
-  --hue-circle-width: 20%;
+  /* 色相環のサイズと幅を表す比率 */
+  --picker-size: 500px;
+  --hue-circle-ratio: 0.2;
+
+  /* カラーピッカーのセレクター */
+  --hue-angle: 0deg;
 }
 
 * {
@@ -74,8 +77,8 @@ body {
   display: grid;
   place-items: center;
   position: relative;
-  width: var(--hue-circle-size);
-  height: var(--hue-circle-size);
+  width: var(--picker-size);
+  height: var(--picker-size);
 }
 
 .p-picker__hue,
@@ -84,8 +87,8 @@ body {
 }
 
 .p-picker__hue {
-  width: var(--hue-circle-size);
-  height: var(--hue-circle-size);
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   background: conic-gradient(
     red,
@@ -97,7 +100,7 @@ body {
     red
   );
 
-  --mask-border: calc(100% - var(--hue-circle-width));
+  --mask-border: calc((1 - var(--hue-circle-ratio)) * 100%);
   mask-image: radial-gradient(
     circle closest-side,
     transparent var(--mask-border),
@@ -105,13 +108,35 @@ body {
     );
 }
 
+.p-picker__hue-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%) rotate(var(--hue-angle, 0deg));
+
+  width: var(--picker-size);
+  height: 20px;
+
+  z-index: 2;
+}
+
+.p-picker__hue-selector {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  /* 色相環の幅と同じ */
+  width: calc(var(--picker-size) * var(--hue-circle-ratio) / 2);
+  height: 100%;
+
+  border: 2px solid var(--bg-color);
+  box-shadow: 0 0 2px rgba(0,0,0,.5);
+}
+
 .p-picker__sv {
   /* SVパネルは色相環の内径を対角線に持つ */
-  --side-length: calc(
-    calc(
-      var(--hue-circle-size)* calc(calc(100% - var(--hue-circle-width)) / 100%))
-      / sqrt(2)
-  );
+  --side-length: calc(var(--picker-size) * (1 - var(--hue-circle-ratio)) / sqrt(2));
   width: var(--side-length);
   height: var(--side-length);
 

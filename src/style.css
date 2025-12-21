@@ -7,6 +7,10 @@
   --text-color: #111;
   /* TODO: フォールバック設定 */
   --main-font: "Inter", sans-serif;
+
+  /* 色相環のサイズと幅 */
+  --hue-circle-size: 500px;
+  --hue-circle-width: 20%;
 }
 
 * {
@@ -67,8 +71,8 @@ body {
 }
 
 .p-picker__hue {
-  width: 500px;
-  height: 500px;
+  width: var(--hue-circle-size);
+  height: var(--hue-circle-size);
   border-radius: 50%;
   background: conic-gradient(
     red,
@@ -80,7 +84,7 @@ body {
     red
   );
 
-  --mask-border: 80%;
+  --mask-border: calc(100% - var(--hue-circle-width));
   mask-image: radial-gradient(
     circle closest-side,
     transparent var(--mask-border),
@@ -89,7 +93,14 @@ body {
 }
 
 .p-picker__sv {
-
+  /* SVパネルは色相環の内径を対角線に持つ */
+  --side-length: calc(
+    calc(
+      var(--hue-circle-size)* calc(calc(100% - var(--hue-circle-width)) / 100%))
+      / sqrt(2)
+  );
+  width: var(--side-length);
+  height: var(--side-length);
 }
 
 /* ================================================================================

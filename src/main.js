@@ -5,9 +5,23 @@ const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 
+let isHueDragging = false;
+
 colorWheel.addEventListener("mousedown", (e) => {
+  isHueDragging = true;
+  e.preventDefault();
   updateHue(e);
 });
+
+window.addEventListener("mousemove", (e) => {
+  if(isHueDragging) {
+    updateHue(e);
+  }
+});
+
+window.addEventListener("mouseup", () => {
+  isHueDragging = false;
+})
 
 function updateHue(e) {
   const rect = colorWheel.getBoundingClientRect();

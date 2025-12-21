@@ -129,7 +129,7 @@ body {
   height: 100%;
 
   border: 2px solid var(--bg-color);
-  box-shadow: 0 0 2px rgba(0,0,0,.5);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.5);
 }
 
 .p-picker__sv {

@@ -100,6 +100,7 @@ body {
     red
   );
 
+  /* 色相環をドーナツ型にする */
   --mask-border: calc((1 - var(--hue-circle-ratio)) * 100%);
   mask-image: radial-gradient(
     circle closest-side,

@@ -70,6 +70,19 @@ body {
   font-size: 4rem;
 }
 
+.p-picker {
+  display: grid;
+  place-items: center;
+  position: relative;
+  width: var(--hue-circle-size);
+  height: var(--hue-circle-size);
+}
+
+.p-picker__hue,
+.p-picker__sv {
+  grid-area: 1 / 1;
+}
+
 .p-picker__hue {
   width: var(--hue-circle-size);
   height: var(--hue-circle-size);
@@ -101,6 +114,11 @@ body {
   );
   width: var(--side-length);
   height: var(--side-length);
+
+  background-color: red;
+  background-image:
+    linear-gradient(to bottom, transparent, black),
+    linear-gradient(to right, white, transparent);
 }
 
 /* ================================================================================

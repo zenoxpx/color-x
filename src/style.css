@@ -12,8 +12,6 @@
   --picker-size: 500px;
   --hue-circle-ratio: 0.2;
 
-  /* カラーピッカーのセレクター */
-  --hue-angle: 0deg;
 }
 
 * {
@@ -113,11 +111,11 @@ body {
   top: 50%;
   left: 50%;
 
+  /* 角度はJSから変更できるようCSS変数を指定 */
   transform: translate(-50%, -50%) rotate(var(--hue-angle, 0deg));
 
   width: var(--picker-size);
   height: 20px;
-
   z-index: 2;
 }
 

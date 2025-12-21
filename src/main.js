@@ -1,4 +1,5 @@
-const HUE_OFFSET = 90;
+const rootStyles = getComputedStyle(document.documentElement);
+const HUE_OFFSET = parseFloat(rootStyles.getPropertyValue("--hue-offset")) || 0;
 
 const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
@@ -9,7 +10,6 @@ colorWheel.addEventListener("mousedown", (e) => {
 });
 
 function updateHue(e) {
-  debugger;
   const rect = colorWheel.getBoundingClientRect();
   // 中心座標
   const cx = rect.left + rect.width / 2;

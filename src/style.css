@@ -12,7 +12,7 @@
   --picker-size: 500px;
   --hue-circle-ratio: 0.2;
 
-  --hue-offset: 90deg;
+  --hue-offset: -60deg;
 }
 
 * {

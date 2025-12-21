@@ -66,6 +66,28 @@ body {
   font-size: 4rem;
 }
 
+.p-picker__hue {
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: conic-gradient(
+    red,
+    yellow,
+    green,
+    cyan,
+    blue,
+    magenta,
+    red
+  );
+
+  --mask-border: 80%;
+  mask-image: radial-gradient(
+    circle closest-side,
+    transparent var(--mask-border),
+    black calc(var(--mask-border) + 1px)
+    );
+}
+
 /* ================================================================================
    Object - Component
    ================================================================================ */

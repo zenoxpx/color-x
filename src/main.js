@@ -1,14 +1,18 @@
+// CSS変数取得のためrootのスタイルを取得
 const rootStyles = getComputedStyle(document.documentElement);
+// 定数取得
 const HUE_OFFSET = parseFloat(rootStyles.getPropertyValue("--hue-offset")) || 0;
 
+// HTML要素取得
 const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 const svSelector = document.getElementById("js-sv-selector");
 
 // 現在の選択色
+// 整数で保持する
 const currentSelectColor = {
-  h: 0,     // 0 - 360
+  h: 0,     // 0 - 359
   s: 100,   // 0 - 100
   v: 100    // 0 - 100
 }
@@ -59,6 +63,7 @@ window.addEventListener("mouseup", () => {
 })
 
 function updateHue(e) {
+  // クリック位置を色相環中央からの座標として取得
   const rect = colorWheel.getBoundingClientRect();
   const [dx, dy] = getClickPositionFromCenter(e, rect);
 
@@ -76,6 +81,8 @@ function updateHue(e) {
   hueHandle.style.setProperty("--hue-angle", `${rawDeg}deg`);
   svPanel.style.backgroundColor = `hsl(${hue}deg, 100%, 50%)`;
 
+  // 色相は0~359で動かすため切り捨て
+  // 色相はループするため360は0と同じ色相
   currentSelectColor.h = Math.floor(hue);
   logCurrentSelectColor();
 }
@@ -98,6 +105,7 @@ function isClickOnColorWheel(e) {
 }
 
 function updateSV(e) {
+  // クリック位置を左上からの座標として取得
   const rect = svPanel.getBoundingClientRect();
   let x = e.clientX - rect.left;
   let y = e.clientY - rect.top;

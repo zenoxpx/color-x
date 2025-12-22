@@ -121,6 +121,9 @@ body {
   width: var(--picker-size);
   height: 20px;
   z-index: 2;
+
+  user-select: none;
+  pointer-events: none;
 }
 
 .p-picker__hue-selector {
@@ -161,6 +164,9 @@ body {
 
   border: 2px solid var(--bg-color);
   box-shadow: 0 0 0 2px rgba(0,0,0,.5);
+
+  user-select: none;
+  pointer-events: none;
 }
 
 /* ================================================================================

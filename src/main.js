@@ -6,6 +6,13 @@ const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 const svSelector = document.getElementById("js-sv-selector");
 
+// 現在の選択色
+const currentSelectColor = {
+  h: 0,     // 0 - 360
+  s: 100,   // 0 - 100
+  v: 100    // 0 - 100
+}
+
 /* ================================================================================
    色相環のセレクター制御
    ================================================================================*/
@@ -37,7 +44,6 @@ let isSvDragging = false;
 
 svPanel.addEventListener("mousedown", (e) => {
   isSvDragging = true;
-  debugger;
   e.preventDefault();
   updateSV(e);
 });
@@ -69,6 +75,9 @@ function updateHue(e) {
 
   hueHandle.style.setProperty("--hue-angle", `${rawDeg}deg`);
   svPanel.style.backgroundColor = `hsl(${hue}deg, 100%, 50%)`;
+
+  currentSelectColor.h = Math.floor(hue);
+  logCurrentSelectColor();
 }
 
 // 色相環の中でクリックしてるか
@@ -102,6 +111,11 @@ function updateSV(e) {
   const selectorSize = 15;
   svSelector.style.left = `${x - selectorSize / 2}px`;
   svSelector.style.top = `${y - selectorSize / 2}px`;
+
+  // SV変換
+  currentSelectColor.s = Math.round((x / rect.width) * 100);
+  currentSelectColor.v = Math.round((1 - (y / rect.height)) * 100);
+  logCurrentSelectColor();
 }
 
 // click位置をrectの中心からの座標に変換する
@@ -112,4 +126,10 @@ function getClickPositionFromCenter(e, rect) {
   const dx = e.clientX - cx;
   const dy = e.clientY - cy;
   return [dx, dy];
+}
+
+// 選択色のログ出力
+function logCurrentSelectColor() {
+  const { h, s, v } = currentSelectColor;
+  console.log(`Current HSV: (${h}, ${s}%, ${v}%)`);
 }

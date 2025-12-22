@@ -24,8 +24,15 @@
 
         <!-- カラーピッカー -->
         <div class="p-picker">
-          <div class="p-picker__hue"></div>
-          <div class="p-picker__sv"></div>
+          <!-- 色相環 -->
+          <div id="js-color-wheel" class="p-picker__hue"></div>
+          <div id="js-hue-handle" class="p-picker__hue-handle">
+            <div class="p-picker__hue-selector"></div>
+          </div>
+          <!-- SVパネル -->
+          <div id="js-sv-panel" class="p-picker__sv">
+            <div id="js-sv-selector" class="p-picker__sv-selector"></div>
+          </div>
         </div>
 
         <!-- ボタン -->

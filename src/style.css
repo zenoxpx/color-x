@@ -7,6 +7,12 @@
   --text-color: #111;
   /* TODO: フォールバック設定 */
   --main-font: "Inter", sans-serif;
+
+  /* 色相環のサイズと幅を表す比率 */
+  --picker-size: 500px;
+  --hue-circle-ratio: 0.2;
+
+  --hue-offset: -60deg;
 }
 
 * {
@@ -64,6 +70,103 @@ body {
 .p-score-display__value {
   font-weight: 800;
   font-size: 4rem;
+}
+
+.p-picker {
+  display: grid;
+  place-items: center;
+  position: relative;
+  width: var(--picker-size);
+  height: var(--picker-size);
+}
+
+.p-picker__hue,
+.p-picker__sv {
+  grid-area: 1 / 1;
+}
+
+.p-picker__hue {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from var(--hue-offset),
+    red,
+    yellow,
+    lime,
+    cyan,
+    blue,
+    magenta,
+    red
+  );
+
+  /* 色相環をドーナツ型にする */
+  --mask-border: calc((1 - var(--hue-circle-ratio)) * 100%);
+  mask-image: radial-gradient(
+    circle closest-side,
+    transparent var(--mask-border),
+    black calc(var(--mask-border) + 1px)
+    );
+}
+
+.p-picker__hue-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  /* 角度はJSから変更できるようCSS変数を指定 */
+  /* 初期値は赤になるように設定 */
+  transform: translate(-50%, -50%) rotate(var(--hue-angle, calc(var(--hue-offset) - 90deg)));
+
+  width: var(--picker-size);
+  height: 20px;
+  z-index: 2;
+
+  user-select: none;
+  pointer-events: none;
+}
+
+.p-picker__hue-selector {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  /* 色相環の幅と同じ */
+  width: calc(var(--picker-size) * var(--hue-circle-ratio) / 2);
+  height: 100%;
+
+  border: 2px solid var(--bg-color);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.5);
+}
+
+.p-picker__sv {
+  position: relative;
+  /* SVパネルは色相環の内径を対角線に持つ */
+  --side-length: calc(var(--picker-size) * (1 - var(--hue-circle-ratio)) / sqrt(2));
+  width: var(--side-length);
+  height: var(--side-length);
+
+  background-color: hsl(0 100% 50%);
+  background-image:
+    linear-gradient(to bottom, transparent, black),
+    linear-gradient(to right, white, transparent);
+}
+
+.p-picker__sv-selector {
+  --size: 15px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  border: 2px solid var(--bg-color);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.5);
+
+  user-select: none;
+  pointer-events: none;
 }
 
 /* ================================================================================

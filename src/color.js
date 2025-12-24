@@ -9,8 +9,9 @@ export function hsvToRgb(h, s, v) {
   const max = v;
   const min = max * (1 - s);
 
+
   // 色相角の60°セクターのインデックス
-  const k = h / 60;
+  const k = Math.floor(h / 60);
 
   // セクターの原点からの座標(割合)
   const x = h / 60 - k;
@@ -50,5 +51,6 @@ export function hsvToRgb(h, s, v) {
       b = a * x + min;
       break;
   }
+
   return {r, g, b};
 }

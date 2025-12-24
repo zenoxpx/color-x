@@ -1,3 +1,5 @@
+import { hsvToRgb } from "./color.js";
+
 // CSS変数取得のためrootのスタイルを取得
 const rootStyles = getComputedStyle(document.documentElement);
 // 定数取得
@@ -8,6 +10,7 @@ const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 const svSelector = document.getElementById("js-sv-selector");
+const submitButton = document.getElementById("submit-btn");
 
 // 現在の選択色
 // 整数で保持する
@@ -61,6 +64,19 @@ window.addEventListener("mousemove", (e) => {
 window.addEventListener("mouseup", () => {
   isSvDragging = false;
 })
+
+/* ================================================================================
+   Submitボタン押下時
+   ================================================================================*/
+submitButton.addEventListener("click", () => {
+  logCurrentSelectColor();
+  console.log(hsvToRgb(
+    currentSelectColor.h,
+    currentSelectColor.s,
+    currentSelectColor.v
+  ))
+})
+
 
 function updateHue(e) {
   // クリック位置を色相環中央からの座標として取得

@@ -81,7 +81,7 @@ function updateHue(e) {
   hueHandle.style.setProperty("--hue-angle", `${rawDeg}deg`);
   svPanel.style.backgroundColor = `hsl(${hue}deg, 100%, 50%)`;
 
-  // 色相は0~359で動かすため切り捨て
+  // 色相は[0, 360)で動かすため切り捨て
   // 色相はループするため360は0と同じ色相
   currentSelectColor.h = Math.floor(hue);
   logCurrentSelectColor();

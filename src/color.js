@@ -54,3 +54,35 @@ export function hsvToRgb(h, s, v) {
 
   return {r, g, b};
 }
+
+export function srgbToXyz(r, g, b) {
+  // ガンマ解除
+  const linearRgb = srgbToLinearRgb(r, g, b);
+
+  // sRGB->XYZの変換行列
+  const matrix = [
+    0.4124, 0.3576, 0.1805,
+    0.2126, 0.7152, 0.0722,
+    0.0193, 0.1192, 0.9505
+  ];
+  // 行列積によるLinear sRGB->XYZの変換
+  const results = multiplyMatrix(matrix, [[r], [g], [b]]);
+  return results.map(v => v[0]);
+}
+
+// sRGBに対するガンマ解除を行う関数
+function srgbToLinearRgb(r, g, b) {
+  [r, g, b] = [r, g, b].map((v) => {
+    if(v > 0.04045) {
+      return Math.pow((v + 0.055) / 1.055, 2.4);
+    } else {
+      return v / 12.92;
+    }
+  });
+
+  return {r, g, b};
+}
+
+function multiplyMatrix(a, b) {
+
+}

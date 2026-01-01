@@ -61,9 +61,9 @@ export function srgbToXyz(r, g, b) {
 
   // sRGB->XYZの変換行列
   const matrix = [
-    0.4124, 0.3576, 0.1805,
-    0.2126, 0.7152, 0.0722,
-    0.0193, 0.1192, 0.9505
+    [0.4124, 0.3576, 0.1805],
+    [0.2126, 0.7152, 0.0722],
+    [0.0193, 0.1192, 0.9505]
   ];
   // 行列積によるLinear sRGB->XYZの変換
   const results = multiplyMatrix(matrix, [[r], [g], [b]]);
@@ -83,6 +83,60 @@ function srgbToLinearRgb(r, g, b) {
   return {r, g, b};
 }
 
-function multiplyMatrix(a, b) {
+// 行列積を計算する関数
+// 行列積が定義されないような演算の場合はnullを返す
+export function multiplyMatrix(matA, matB) {
+  // 行方向に要素が存在するかチェック
+  if(matA.length === 0 || matB.length === 0) {
+    return null;
+  }
 
+  // 行列積が定義できるかチェック
+  if(matA[0].length !== matB.length) {
+    return null;
+  }
+
+  // lxm行列とmxn行列の積をとる
+  const l = matA.length;
+  const m = matB.length;
+  const n = matB[0].length;
+
+  // 列方向に要素が存在するかチェック
+  if(n === 0) {
+    return null;
+  }
+
+  // xxy行列として正しい形かチェック
+  // 行方向の要素数はチェック済みとする
+  const validateMatrix = (matrix, x, y) => {
+    for(let i = 0;i < x;i++) {
+      if(matrix[i].length !== y) {
+        return false;
+      }
+    }
+    return true;
+  }
+  // A, Bどちらかが不正でないかチェック
+  if(!validateMatrix(matA, l, m) || !validateMatrix(matB, m, n)) {
+    return null;
+  }
+  
+  // 結果となる行列の初期化
+  const matC = [];
+  for(let i = 0;i < l;i++) {
+    matC.push([]);
+    for(let j = 0;j < n;j++) {
+      matC[i].push(0);
+    }
+  }
+
+  for(let i = 0;i < l;i++) {
+    for(let j = 0;j < n;j++) {
+      for(let k = 0;k < m;k++) {
+        matC[i][j] += matA[i][k] * matB[k][j];
+      }
+    }
+  }
+
+  return matC;
 }

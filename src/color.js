@@ -4,6 +4,14 @@ export function hsvToLab(h, s, v) {
   return xyzToLab(x, y, z);
 }
 
+// 2つのLab値の色差を計算する関数
+export function getDeltaE(lab1, lab2) {
+  const dL = lab1.l - lab2.l;
+  const da = lab1.a - lab2.a;
+  const db = lab1.b - lab2.b;
+  return Math.sqrt(dL*dL + da*da + db*db);
+}
+
 // HSV->RGBの変換を行う関数
 // Hは[0, 360), S,Vは[0, 100]
 // 返すRGBは[0, 1]

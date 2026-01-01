@@ -14,15 +14,16 @@ export function hsvToRgb(h, s, v) {
   const max = v;
   const min = max * (1 - s);
 
-
-  // 色相角の60°セクターのインデックス
+  // 色相角の60°セクターの番号[0, 5]
+  // h/60の整数部分
   const k = Math.floor(h / 60);
 
   // セクターの原点からの座標(割合)
+  // h/60の小数部分
   const x = h / 60 - k;
 
   // 中間値の傾き
-  const a = (-1 * (k % 2)) * (max - min) / 60;
+  const a = (k % 2 === 0 ? 1 : -1) * (max - min);
 
   switch(k) {
     case 0: // 0°~60°
@@ -31,7 +32,7 @@ export function hsvToRgb(h, s, v) {
       b = min;
       break;
     case 1: // 60°~120°
-      r = a * x + min;
+      r = a * x + max;
       g = max;
       b = min;
       break;
@@ -42,7 +43,7 @@ export function hsvToRgb(h, s, v) {
       break;
     case 3: // 180°~240°
       r = min;
-      g = a * x + min;
+      g = a * x + max;
       b = max;
       break;
     case 4: // 240°~300°
@@ -53,7 +54,7 @@ export function hsvToRgb(h, s, v) {
     case 5: // 300°~360°
       r = max;
       g = min;
-      b = a * x + min;
+      b = a * x + max;
       break;
   }
 

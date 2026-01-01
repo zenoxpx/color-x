@@ -70,11 +70,6 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
-  console.log(hsvToLab(
-    currentSelectColor.h,
-    currentSelectColor.s,
-    currentSelectColor.v
-  ));
 })
 
 

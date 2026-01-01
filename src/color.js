@@ -1,6 +1,7 @@
-export function hsvToXyz(h, s, v) {
+export function hsvToLab(h, s, v) {
   const {r, g, b} = hsvToRgb(h, s, v);
-  return srgbToXyz(r, g, b);
+  const {x, y, z} = srgbToXyz(r, g, b);
+  return xyzToLab(x, y, z);
 }
 
 // HSVから変換したRGBを[0, 1]で返す関数
@@ -89,6 +90,29 @@ function srgbToLinearRgb(r, g, b) {
   });
 
   return {r, g, b};
+}
+
+// XYZから変換したCIE Labを返す関数
+export function xyzToLab(x, y, z) {
+  // D65の白色点座標
+  const wx = 0.95047;
+  const wy = 1.00000;
+  const wz = 1.08883;
+
+  const f = (t) => {
+    const delta = 6 / 29;
+
+    if(t > Math.pow(delta, 3)) {
+      return Math.pow(t, 1/3);
+    } else {
+      return Math.pow(delta, 2) * t / 3 + 4 / 29;
+    }
+  }
+  const l = 116 * f(y / wy) - 16;
+  const a = 500 * (f(x / wx) - f(y / wy));
+  const b = 200 * (f(y / wy) - f(z / wz));
+
+  return { l, a, b }
 }
 
 // 行列積を計算する関数

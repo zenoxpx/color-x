@@ -1,4 +1,4 @@
-import { hsvToRgb } from "./color.js";
+import { hsvToXyz } from "./color.js";
 
 // CSS変数取得のためrootのスタイルを取得
 const rootStyles = getComputedStyle(document.documentElement);
@@ -70,11 +70,11 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
-  console.log(hsvToRgb(
+  console.log(hsvToXyz(
     currentSelectColor.h,
     currentSelectColor.s,
     currentSelectColor.v
-  ))
+  ));
 })
 
 

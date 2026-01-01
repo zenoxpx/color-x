@@ -1,3 +1,8 @@
+export function hsvToXyz(h, s, v) {
+  const {r, g, b} = hsvToRgb(h, s, v);
+  return srgbToXyz(r, g, b);
+}
+
 // HSVから変換したRGBを[0, 1]で返す関数
 // Hは[0, 360), S,Vは[0, 100]
 export function hsvToRgb(h, s, v) {
@@ -68,7 +73,8 @@ export function srgbToXyz(r, g, b) {
   // 行列積によるLinear sRGB->XYZの変換
   const results = multiplyMatrix(matrix, [[linearRgb.r], [linearRgb.g], [linearRgb.b]]);
   // 縦ベクトルの転置をして返す
-  return results.map(v => v[0]);
+  const [x, y, z] = results.map(v => v[0]);
+  return {x, y, z};
 }
 
 // sRGBに対するガンマ解除を行う関数

@@ -66,7 +66,8 @@ export function srgbToXyz(r, g, b) {
     [0.0193, 0.1192, 0.9505]
   ];
   // 行列積によるLinear sRGB->XYZの変換
-  const results = multiplyMatrix(matrix, [[r], [g], [b]]);
+  const results = multiplyMatrix(matrix, [[linearRgb.r], [linearRgb.g], [linearRgb.b]]);
+  // 縦ベクトルの転置をして返す
   return results.map(v => v[0]);
 }
 

@@ -1,5 +1,12 @@
+// HSV->CIE Labの変換を一括で行うラッパー関数
 export function hsvToLab(h, s, v) {
   const {r, g, b} = hsvToRgb(h, s, v);
+  const {x, y, z} = srgbToXyz(r, g, b);
+  return xyzToLab(x, y, z);
+}
+
+// RGB->CIE Labの変換を一括で行うラッパー関数
+export function rgbToLab(r, g, b) {
   const {x, y, z} = srgbToXyz(r, g, b);
   return xyzToLab(x, y, z);
 }

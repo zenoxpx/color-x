@@ -1,4 +1,4 @@
-import { hsvToLab } from "./color.js";
+import { rgbToLab, hsvToLab, getDeltaE } from "./color.js";
 
 // CSS変数取得のためrootのスタイルを取得
 const rootStyles = getComputedStyle(document.documentElement);
@@ -18,6 +18,14 @@ const currentSelectColor = {
   h: 0,     // 0 - 359
   s: 100,   // 0 - 100
   v: 100    // 0 - 100
+}
+
+// 出題される色
+// [0, 1]
+const questionColor = {
+  r: 1,
+  g: 1,
+  b: 1
 }
 
 /* ================================================================================
@@ -70,6 +78,12 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
+  const questionLab = rgbToLab(questionColor.r, questionColor.b, questionColor.g);
+  const selectLab = hsvToLab(currentSelectColor.h, currentSelectColor.s, currentSelectColor.v);
+
+  const deltaE = getDeltaE(questionLab, selectLab);
+  const score = calcScore(deltaE);
+  console.log("score: ", score);
 })
 
 
@@ -151,4 +165,13 @@ function getClickPositionFromCenter(e, rect) {
 function logCurrentSelectColor() {
   const { h, s, v } = currentSelectColor;
   console.log(`Current HSV: (${h}, ${s}%, ${v}%)`);
+}
+
+// スコア計算を行う関数
+function calcScore(deltaE) {
+  // deltaE * e^{-k * x}の形でスコアを算出する
+  // kが大きいほど難易度が高くなる
+  const k = 0.08;
+  let score = 100 * Math.exp(-k * deltaE);
+  return Math.round(score);
 }

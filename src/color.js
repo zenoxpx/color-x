@@ -4,8 +4,9 @@ export function hsvToLab(h, s, v) {
   return xyzToLab(x, y, z);
 }
 
-// HSVから変換したRGBを[0, 1]で返す関数
+// HSV->RGBの変換を行う関数
 // Hは[0, 360), S,Vは[0, 100]
+// 返すRGBは[0, 1]
 export function hsvToRgb(h, s, v) {
   // [0, 1]に正規化
   s /= 100, v /= 100;
@@ -15,7 +16,7 @@ export function hsvToRgb(h, s, v) {
   const max = v;
   const min = max * (1 - s);
 
-  // 色相角の60°セクターの番号[0, 5]
+  // 色相角の60°セクターの番号 0~5
   // h/60の整数部分
   const k = Math.floor(h / 60);
 
@@ -62,6 +63,7 @@ export function hsvToRgb(h, s, v) {
   return {r, g, b};
 }
 
+// sRGB->XYZの変換を行う関数
 export function srgbToXyz(r, g, b) {
   // ガンマ解除
   const linearRgb = srgbToLinearRgb(r, g, b);
@@ -74,6 +76,7 @@ export function srgbToXyz(r, g, b) {
   ];
   // 行列積によるLinear sRGB->XYZの変換
   const results = multiplyMatrix(matrix, [[linearRgb.r], [linearRgb.g], [linearRgb.b]]);
+
   // 縦ベクトルの転置をして返す
   const [x, y, z] = results.map(v => v[0]);
   return {x, y, z};
@@ -92,7 +95,7 @@ function srgbToLinearRgb(r, g, b) {
   return {r, g, b};
 }
 
-// XYZから変換したCIE Labを返す関数
+// XYZ->Lab(標準光源D65)の変換を行う関数
 export function xyzToLab(x, y, z) {
   // D65の白色点座標
   const wx = 0.95047;

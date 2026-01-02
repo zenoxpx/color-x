@@ -143,7 +143,7 @@ body {
 .p-picker__sv {
   position: relative;
   /* SVパネルは色相環の内径を対角線に持つ */
-  --side-length: calc(var(--picker-size) * (1 - var(--hue-circle-ratio)) / sqrt(2));
+  --side-length: calc(100% * (1 - var(--hue-circle-ratio)) / sqrt(2));
   width: var(--side-length);
   height: var(--side-length);
 

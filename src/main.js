@@ -1,3 +1,5 @@
+import { rgbToLab, hsvToLab, getDeltaE } from "./color.js";
+
 // CSS変数取得のためrootのスタイルを取得
 const rootStyles = getComputedStyle(document.documentElement);
 // 定数取得
@@ -8,6 +10,7 @@ const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 const svSelector = document.getElementById("js-sv-selector");
+const submitButton = document.getElementById("submit-btn");
 
 // 現在の選択色
 // 整数で保持する
@@ -15,6 +18,14 @@ const currentSelectColor = {
   h: 0,     // 0 - 359
   s: 100,   // 0 - 100
   v: 100    // 0 - 100
+}
+
+// 出題される色
+// [0, 1]
+const questionColor = {
+  r: 1,
+  g: 1,
+  b: 1
 }
 
 /* ================================================================================
@@ -62,6 +73,20 @@ window.addEventListener("mouseup", () => {
   isSvDragging = false;
 })
 
+/* ================================================================================
+   Submitボタン押下時
+   ================================================================================*/
+submitButton.addEventListener("click", () => {
+  logCurrentSelectColor();
+  const questionLab = rgbToLab(questionColor.r, questionColor.b, questionColor.g);
+  const selectLab = hsvToLab(currentSelectColor.h, currentSelectColor.s, currentSelectColor.v);
+
+  const deltaE = getDeltaE(questionLab, selectLab);
+  const score = calcScore(deltaE);
+  console.log("score: ", score);
+})
+
+
 function updateHue(e) {
   // クリック位置を色相環中央からの座標として取得
   const rect = colorWheel.getBoundingClientRect();
@@ -81,10 +106,10 @@ function updateHue(e) {
   hueHandle.style.setProperty("--hue-angle", `${rawDeg}deg`);
   svPanel.style.backgroundColor = `hsl(${hue}deg, 100%, 50%)`;
 
-  // 色相は0~359で動かすため切り捨て
+  // 色相は[0, 360)で動かすため切り捨て
   // 色相はループするため360は0と同じ色相
   currentSelectColor.h = Math.floor(hue);
-  logCurrentSelectColor();
+  // logCurrentSelectColor();
 }
 
 // 色相環の中でクリックしてるか
@@ -123,7 +148,7 @@ function updateSV(e) {
   // SV変換
   currentSelectColor.s = Math.round((x / rect.width) * 100);
   currentSelectColor.v = Math.round((1 - (y / rect.height)) * 100);
-  logCurrentSelectColor();
+  // logCurrentSelectColor();
 }
 
 // click位置をrectの中心からの座標に変換する
@@ -140,4 +165,13 @@ function getClickPositionFromCenter(e, rect) {
 function logCurrentSelectColor() {
   const { h, s, v } = currentSelectColor;
   console.log(`Current HSV: (${h}, ${s}%, ${v}%)`);
+}
+
+// スコア計算を行う関数
+function calcScore(deltaE) {
+  // deltaE * e^{-k * x}の形でスコアを算出する
+  // kが大きいほど難易度が高くなる
+  const k = 0.08;
+  let score = 100 * Math.exp(-k * deltaE);
+  return Math.round(score);
 }

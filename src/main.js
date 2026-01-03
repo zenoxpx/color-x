@@ -147,6 +147,7 @@ function updateSV(e) {
   // SV変換
   currentSelectColor.s = Math.round((x / rect.width) * 100);
   currentSelectColor.v = Math.round((1 - (y / rect.height)) * 100);
+  // TODO: ブラウザ上でズームしたときに位置を自動で修正するようにする
 }
 
 // click位置をrectの中心からの座標に変換する

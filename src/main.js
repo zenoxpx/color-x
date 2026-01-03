@@ -78,7 +78,7 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
-  const questionLab = rgbToLab(questionColor.r, questionColor.b, questionColor.g);
+  const questionLab = rgbToLab(questionColor.r, questionColor.g, questionColor.b);
   const selectLab = hsvToLab(currentSelectColor.h, currentSelectColor.s, currentSelectColor.v);
 
   const deltaE = getDeltaE(questionLab, selectLab);

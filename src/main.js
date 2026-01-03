@@ -109,7 +109,6 @@ function updateHue(e) {
   // 色相は[0, 360)で動かすため切り捨て
   // 色相はループするため360は0と同じ色相
   currentSelectColor.h = Math.floor(hue);
-  // logCurrentSelectColor();
 }
 
 // 色相環の中でクリックしてるか
@@ -130,25 +129,20 @@ function isClickOnColorWheel(e) {
 }
 
 function updateSV(e) {
-  // クリック位置を左上からの座標として取得
   const rect = svPanel.getBoundingClientRect();
-  let x = e.clientX - rect.left;
-  let y = e.clientY - rect.top;
+  
+  // クリック位置を0-1の比率に変換
+  const clamp = (min, pos, max) => Math.max(min, Math.min(pos, max));
+  let sRatio = clamp(0, (e.clientX - rect.left) / rect.width, 1);
+  let vRatio = clamp(0, (e.clientY - rect.top) / rect.height, 1);
 
-  // パネル内に収める
-  const clampPos = (min, pos, max) => Math.max(min, Math.min(pos, max));
-  x = clampPos(0, x, rect.width);
-  y = clampPos(0, y, rect.height);
+  // 選択色の更新
+  currentSelectColor.s = sRatio * 100;
+  currentSelectColor.v = (1 - vRatio) * 100;
 
-  // TODO: selectorSizeをCSSから取り出す処理を実装する
-  const selectorSize = 15;
-  svSelector.style.left = `${x - selectorSize / 2}px`;
-  svSelector.style.top = `${y - selectorSize / 2}px`;
-
-  // SV変換
-  currentSelectColor.s = Math.round((x / rect.width) * 100);
-  currentSelectColor.v = Math.round((1 - (y / rect.height)) * 100);
-  // logCurrentSelectColor();
+  // セレクター位置の更新
+  svSelector.style.left = `${currentSelectColor.s}%`;
+  svSelector.style.top = `${100 - currentSelectColor.v}%`;
 }
 
 // click位置をrectの中心からの座標に変換する

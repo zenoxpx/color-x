@@ -109,7 +109,6 @@ function updateHue(e) {
   // 色相は[0, 360)で動かすため切り捨て
   // 色相はループするため360は0と同じ色相
   currentSelectColor.h = Math.floor(hue);
-  // logCurrentSelectColor();
 }
 
 // 色相環の中でクリックしてるか
@@ -148,7 +147,6 @@ function updateSV(e) {
   // SV変換
   currentSelectColor.s = Math.round((x / rect.width) * 100);
   currentSelectColor.v = Math.round((1 - (y / rect.height)) * 100);
-  // logCurrentSelectColor();
 }
 
 // click位置をrectの中心からの座標に変換する

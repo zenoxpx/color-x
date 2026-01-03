@@ -161,8 +161,9 @@ body {
   border-radius: 50%;
 
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0%;
+  left: 0%;
+  transform: translate(-50%, -50%);
 
   border: 2px solid var(--bg-color);
   box-shadow: 0 0 0 2px rgba(0,0,0,.5);

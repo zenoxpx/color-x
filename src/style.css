@@ -62,6 +62,10 @@ body {
    Object - Project
    ================================================================================ */
 
+.p-score-display {
+  text-align: center;
+}
+
 .p-score-display__title {
   font-weight: 600;
   font-size: 2rem;

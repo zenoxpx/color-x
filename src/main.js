@@ -87,10 +87,18 @@ submitButton.addEventListener("click", () => {
   console.log("score: ", score);
 })
 
+generateTargetColor();
 
 // 出題色の生成を行う関数
 function generateTargetColor() {
+  targetColor.r = Math.random();
+  targetColor.g = Math.random();
+  targetColor.b = Math.random();
 
+  const toCode = (v) => Math.round(v * 255).toString(16).padStart(2, "0").toUpperCase();
+  const colorCode = `#${toCode(targetColor.r)}${toCode(targetColor.g)}${toCode(targetColor.b)}`;
+  
+  colorCodeDisplay.textContent = colorCode;
 }
 
 function updateHue(e) {

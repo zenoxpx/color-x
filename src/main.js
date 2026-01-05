@@ -6,6 +6,7 @@ const rootStyles = getComputedStyle(document.documentElement);
 const HUE_OFFSET = parseFloat(rootStyles.getPropertyValue("--hue-offset")) || 0;
 
 // HTML要素取得
+const colorCodeDisplay = document.getElementById("js-color-code");
 const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
@@ -86,6 +87,11 @@ submitButton.addEventListener("click", () => {
   console.log("score: ", score);
 })
 
+
+// 出題色の生成を行う関数
+function generateTargetColor() {
+
+}
 
 function updateHue(e) {
   // クリック位置を色相環中央からの座標として取得

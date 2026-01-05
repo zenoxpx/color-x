@@ -22,7 +22,7 @@ const currentSelectColor = {
 
 // 出題される色
 // [0, 1]
-const questionColor = {
+const targetColor = {
   r: 1,
   g: 1,
   b: 1
@@ -78,7 +78,7 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
-  const questionLab = rgbToLab(questionColor.r, questionColor.g, questionColor.b);
+  const questionLab = rgbToLab(targetColor.r, targetColor.g, targetColor.b);
   const selectLab = hsvToLab(currentSelectColor.h, currentSelectColor.s, currentSelectColor.v);
 
   const deltaE = getDeltaE(questionLab, selectLab);

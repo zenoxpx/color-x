@@ -79,10 +79,10 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
-  const questionLab = rgbToLab(targetColor.r, targetColor.g, targetColor.b);
+  const targetLab = rgbToLab(targetColor.r, targetColor.g, targetColor.b);
   const selectLab = hsvToLab(currentSelectColor.h, currentSelectColor.s, currentSelectColor.v);
 
-  const deltaE = getDeltaE(questionLab, selectLab);
+  const deltaE = getDeltaE(targetLab, selectLab);
   const score = calcScore(deltaE);
   console.log("score: ", score);
 })

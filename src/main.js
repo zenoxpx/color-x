@@ -6,6 +6,7 @@ const rootStyles = getComputedStyle(document.documentElement);
 const HUE_OFFSET = parseFloat(rootStyles.getPropertyValue("--hue-offset")) || 0;
 
 // HTML要素取得
+const colorCodeDisplay = document.getElementById("js-color-code");
 const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
@@ -22,7 +23,7 @@ const currentSelectColor = {
 
 // 出題される色
 // [0, 1]
-const questionColor = {
+const targetColor = {
   r: 1,
   g: 1,
   b: 1
@@ -78,14 +79,27 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
-  const questionLab = rgbToLab(questionColor.r, questionColor.g, questionColor.b);
+  const targetLab = rgbToLab(targetColor.r, targetColor.g, targetColor.b);
   const selectLab = hsvToLab(currentSelectColor.h, currentSelectColor.s, currentSelectColor.v);
 
-  const deltaE = getDeltaE(questionLab, selectLab);
+  const deltaE = getDeltaE(targetLab, selectLab);
   const score = calcScore(deltaE);
   console.log("score: ", score);
 })
 
+generateTargetColor();
+
+// 出題色の生成を行う関数
+function generateTargetColor() {
+  targetColor.r = Math.random();
+  targetColor.g = Math.random();
+  targetColor.b = Math.random();
+
+  const toCode = (v) => Math.round(v * 255).toString(16).padStart(2, "0").toUpperCase();
+  const colorCode = `#${toCode(targetColor.r)}${toCode(targetColor.g)}${toCode(targetColor.b)}`;
+  
+  colorCodeDisplay.textContent = colorCode;
+}
 
 function updateHue(e) {
   // クリック位置を色相環中央からの座標として取得

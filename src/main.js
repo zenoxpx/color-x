@@ -16,7 +16,6 @@ const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 const svSelector = document.getElementById("js-sv-selector");
-const resultColorWheel = document.getElementById("js-color-wheel-result");
 const resultHueHandle = document.getElementById("js-hue-handle-result");
 const resultSvPanel = document.getElementById("js-sv-panel-result");
 const resultSvSelector = document.getElementById("js-sv-selector-result");

@@ -8,12 +8,19 @@ const HUE_OFFSET = parseFloat(rootStyles.getPropertyValue("--hue-offset")) || 0;
 // HTML要素取得
 const gameView = document.getElementById("js-view-game");
 const resultView = document.getElementById("js-view-result");
+
 const colorCodeDisplay = document.getElementById("js-color-code");
 const scoreDisplay = document.getElementById("js-score-display");
+
 const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 const svSelector = document.getElementById("js-sv-selector");
+const resultColorWheel = document.getElementById("js-color-wheel-result");
+const resultHueHandle = document.getElementById("js-hue-handle-result");
+const resultSvPanel = document.getElementById("js-sv-panel-result");
+const resultSvSelector = document.getElementById("js-sv-selector-result");
+
 const submitButton = document.getElementById("submit-btn");
 const retryButton = document.getElementById("retry-btn");
 
@@ -93,6 +100,7 @@ submitButton.addEventListener("click", () => {
   console.log("score: ", score);
 
   // ビュー切替
+  updateResultColorPicker();
   switchView(gameView, resultView);
   scoreDisplay.textContent = score;
 });
@@ -205,4 +213,15 @@ function calcScore(deltaE) {
   const k = 0.08;
   let score = 100 * Math.exp(-k * deltaE);
   return Math.round(score);
+}
+
+function updateResultColorPicker() {
+  // hueHandle.style.setProperty("--hue-angle", `${rawDeg}deg`);
+  // svPanel.style.backgroundColor = `hsl(${hue}deg, 100%, 50%)`;
+  resultHueHandle.style.setProperty("--hue-angle", hueHandle.style.getPropertyValue("--hue-angle"));
+  resultSvPanel.style.backgroundColor = svPanel.style.backgroundColor;
+
+  resultSvSelector.style.left = svSelector.style.left;
+  resultSvSelector.style.top = svSelector.style.top;
+
 }

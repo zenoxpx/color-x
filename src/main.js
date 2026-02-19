@@ -83,15 +83,34 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
+  // Lab値の取得
   const targetLab = rgbToLab(targetColor.r, targetColor.g, targetColor.b);
   const selectLab = hsvToLab(currentSelectColor.h, currentSelectColor.s, currentSelectColor.v);
 
+  // スコア計算
   const deltaE = getDeltaE(targetLab, selectLab);
   const score = calcScore(deltaE);
   console.log("score: ", score);
+
+  // ビュー切替
+  switchView(gameView, resultView);
+  scoreDisplay.textContent = score;
+});
+
+/* ================================================================================
+   Retryボタン押下時
+   ================================================================================*/
+retryButton.addEventListener("click", () => {
+  switchView(resultView, gameView);
+  generateTargetColor();
 });
 
 generateTargetColor();
+
+function switchView(from, to) {
+  from.classList.add("u-hidden");
+  to.classList.remove("u-hidden");
+}
 
 // 出題色の生成を行う関数
 function generateTargetColor() {

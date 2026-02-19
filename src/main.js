@@ -6,12 +6,22 @@ const rootStyles = getComputedStyle(document.documentElement);
 const HUE_OFFSET = parseFloat(rootStyles.getPropertyValue("--hue-offset")) || 0;
 
 // HTML要素取得
+const gameView = document.getElementById("js-view-game");
+const resultView = document.getElementById("js-view-result");
+
 const colorCodeDisplay = document.getElementById("js-color-code");
+const scoreDisplay = document.getElementById("js-score-display");
+
 const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 const svSelector = document.getElementById("js-sv-selector");
+const resultHueHandle = document.getElementById("js-hue-handle-result");
+const resultSvPanel = document.getElementById("js-sv-panel-result");
+const resultSvSelector = document.getElementById("js-sv-selector-result");
+
 const submitButton = document.getElementById("submit-btn");
+const retryButton = document.getElementById("retry-btn");
 
 // 現在の選択色
 // 整数で保持する
@@ -79,15 +89,35 @@ window.addEventListener("mouseup", () => {
    ================================================================================*/
 submitButton.addEventListener("click", () => {
   logCurrentSelectColor();
+  // Lab値の取得
   const targetLab = rgbToLab(targetColor.r, targetColor.g, targetColor.b);
   const selectLab = hsvToLab(currentSelectColor.h, currentSelectColor.s, currentSelectColor.v);
 
+  // スコア計算
   const deltaE = getDeltaE(targetLab, selectLab);
   const score = calcScore(deltaE);
   console.log("score: ", score);
-})
+
+  // ビュー切替
+  updateResultColorPicker();
+  switchView(gameView, resultView);
+  scoreDisplay.textContent = score;
+});
+
+/* ================================================================================
+   Retryボタン押下時
+   ================================================================================*/
+retryButton.addEventListener("click", () => {
+  switchView(resultView, gameView);
+  generateTargetColor();
+});
 
 generateTargetColor();
+
+function switchView(from, to) {
+  from.classList.add("u-hidden");
+  to.classList.remove("u-hidden");
+}
 
 // 出題色の生成を行う関数
 function generateTargetColor() {
@@ -182,4 +212,15 @@ function calcScore(deltaE) {
   const k = 0.08;
   let score = 100 * Math.exp(-k * deltaE);
   return Math.round(score);
+}
+
+function updateResultColorPicker() {
+  // hueHandle.style.setProperty("--hue-angle", `${rawDeg}deg`);
+  // svPanel.style.backgroundColor = `hsl(${hue}deg, 100%, 50%)`;
+  resultHueHandle.style.setProperty("--hue-angle", hueHandle.style.getPropertyValue("--hue-angle"));
+  resultSvPanel.style.backgroundColor = svPanel.style.backgroundColor;
+
+  resultSvSelector.style.left = svSelector.style.left;
+  resultSvSelector.style.top = svSelector.style.top;
+
 }

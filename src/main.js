@@ -6,12 +6,16 @@ const rootStyles = getComputedStyle(document.documentElement);
 const HUE_OFFSET = parseFloat(rootStyles.getPropertyValue("--hue-offset")) || 0;
 
 // HTML要素取得
+const gameView = document.getElementById("js-view-game");
+const resultView = document.getElementById("js-view-result");
 const colorCodeDisplay = document.getElementById("js-color-code");
+const scoreDisplay = document.getElementById("js-score-display");
 const colorWheel = document.getElementById("js-color-wheel");
 const hueHandle = document.getElementById("js-hue-handle");
 const svPanel = document.getElementById("js-sv-panel");
 const svSelector = document.getElementById("js-sv-selector");
 const submitButton = document.getElementById("submit-btn");
+const retryButton = document.getElementById("retry-btn");
 
 // 現在の選択色
 // 整数で保持する
@@ -85,7 +89,7 @@ submitButton.addEventListener("click", () => {
   const deltaE = getDeltaE(targetLab, selectLab);
   const score = calcScore(deltaE);
   console.log("score: ", score);
-})
+});
 
 generateTargetColor();
 

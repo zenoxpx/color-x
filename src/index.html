@@ -40,7 +40,29 @@
           <button id="submit-btn" class="c-btn">Submit</button>
         </div>
       </div>
-      <div id="js-view-result" class="l-container u-hidden"></div>
+      <div id="js-view-result" class="l-container u-hidden">
+        <div class="p-score-display">
+          <p class="p-score-display__title">Your Score</p>
+          <h2 id="js-score-display" class="p-score-display__value"></h2>
+        </div>
+        <!-- カラーピッカー -->
+        <div class="p-picker">
+          <!-- 色相環 -->
+          <div id="js-color-wheel" class="p-picker__hue"></div>
+          <div id="js-hue-handle" class="p-picker__hue-handle">
+            <div class="p-picker__hue-selector"></div>
+          </div>
+          <!-- SVパネル -->
+          <div id="js-sv-panel" class="p-picker__sv">
+            <div id="js-sv-selector" class="p-picker__sv-selector"></div>
+          </div>
+        </div>
+
+        <!-- ボタン -->
+        <div>
+          <button id="retry-btn" class="c-btn">Retry</button>
+        </div>
+      </div>
     </main>
     <script type="module" src="main.js"></script>
   </body>

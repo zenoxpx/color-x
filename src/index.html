@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -15,7 +15,7 @@
   </head>
   <body>
     <main class="l-main">
-      <div class="l-container">
+      <div id="js-view-game" class="l-container">
         <!-- カラーコード表示 -->
         <div class="p-score-display">
           <p class="p-score-display__title">What's This Color?</p>
@@ -40,6 +40,7 @@
           <button id="submit-btn" class="c-btn">Submit</button>
         </div>
       </div>
+      <div id="js-view-result" class="l-container u-hidden"></div>
     </main>
     <script type="module" src="main.js"></script>
   </body>
